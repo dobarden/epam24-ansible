@@ -1,0 +1,35 @@
+---
+- name: Install httpd and create index.html
+  hosts: nodes
+  become: yes
+
+  vars:
+    destination_path: "/var/www/html/index.html"
+    text_in_file: "Welcome to my web server" 
+    tcp_port: 80
+
+  tasks:
+
+  - name: Install Apache
+    yum: 
+      name: httpd 
+      state: latest
+
+  - name: Create index.html
+    copy: 
+      dest: "{{ destination_path }}"
+      content: "{{ text_in_file }}"
+
+  - name: Start Apache
+    service: 
+      name: httpd 
+      state: started 
+      enabled: yes
+
+  - name: Enable port
+    firewalld:
+      port: "{{ tcp_port }}/tcp"
+      permanent: yes
+      state: enabled
+
+...

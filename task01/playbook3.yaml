@@ -1,0 +1,54 @@
+---
+- name: Add parameters to line
+  hosts: nodes
+  become: yes
+  
+  vars:
+    destination_path: "/etc/default/grub"
+
+  tasks:
+
+   - name: Check if "net.ifnames=0" exists
+     lineinfile:
+       path: "{{ destination_path }}"
+       regexp: '(^GRUB_CMDLINE_LINUX.*net.ifnames=0.*)'
+       state: absent
+     check_mode: true
+     register: check1
+
+   - name: Add "net.ifnames=0"
+     lineinfile:
+       path: "{{ destination_path }}"
+       regexp: '(^GRUB_CMDLINE_LINUX.*)(?!$)'
+       line: '\1 net.ifnames=0"'
+       state: present
+       backrefs: yes
+     when: check1.found == 0
+
+
+   - name: Check if "biosdevname=0" exists
+     lineinfile:
+       path: "{{ destination_path }}"
+       regexp: '(^GRUB_CMDLINE_LINUX.*biosdevname=0.*)'
+       state: absent
+     check_mode: true
+     register: check2
+
+   - name: Add "biosdevname=0"
+     lineinfile:
+       path: "{{ destination_path }}"
+       regexp: '(^GRUB_CMDLINE_LINUX.*)(?!$)'
+       line: '\1 biosdevname=0"'
+       state: present
+       backrefs: yes
+     when: check2.found == 0
+
+
+   - name: This command will run grub2-mkconfig
+     ansible.builtin.shell:
+       cmd: grub2-mkconfig -o /boot/efi/EFI/centos/grub.cfg
+     when: check1.found == 0 or check2.found == 0 
+
+
+...
+

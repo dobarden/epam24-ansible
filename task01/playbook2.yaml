@@ -1,0 +1,29 @@
+---
+- name: Delete httpd and index.html file
+  hosts: nodes
+  become: yes
+
+  vars:
+    destination_path: "/var/www/html/index.html"
+    tcp_port: 80
+
+  tasks:
+
+  - name: Remove Apache
+    yum:
+      name: httpd
+      state: absent
+
+  - name: Delete file
+    ansible.builtin.file:
+      path: "{{ destination_path }}"
+      state: absent
+
+  - name: Disable port
+    firewalld:
+      port: "{{ tcp_port }}/tcp"
+      permanent: yes
+      state: disabled
+
+...
+
