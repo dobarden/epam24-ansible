@@ -1,0 +1,23 @@
+---
+- name: Create new users
+  hosts: nodes
+  become: yes
+
+  vars_files:
+    - secret.yaml
+
+  tasks:
+    
+    - name: Add the user
+      ansible.builtin.user:
+        name: "{{ item }}"
+        comment: "{{ item|lower }}@example.com"
+        password: "{{ passwords[item|lower] | string | password_hash('sha512') }}"
+        createhome: yes
+        home: /home/{{ item|lower }}
+        update_password: on_create
+      with_items:
+        - "Alice"
+        - "Bob"
+        - "Carol"
+
