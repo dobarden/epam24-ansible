@@ -1,0 +1,23 @@
+---
+# tasks file for install_httpd
+- name: Install Apache
+  yum:
+    name: httpd
+    state: latest
+
+- name: index.html from template
+  template: src=index.j2 dest={{ destination_path }}/index.html
+  notify:
+    - Restart httpd
+
+- name: Start Apache
+  service:
+    name: httpd
+    state: started
+    enabled: yes
+
+- name: Enable port
+  firewalld:
+    port: "{{ tcp_port }}/tcp"
+    permanent: yes
+    state: enabled

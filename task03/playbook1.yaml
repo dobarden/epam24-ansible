@@ -1,0 +1,7 @@
+---
+- name: Install httpd and create index.html
+  hosts: nodes
+  become: yes
+
+  roles:
+    - install_httpd    

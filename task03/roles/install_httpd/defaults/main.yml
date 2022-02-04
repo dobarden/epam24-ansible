@@ -1,0 +1,5 @@
+---
+# defaults file for install_httpd
+destination_path: "/var/www/html"
+text_in_file: "Welcome to my web server"
+tcp_port: 80
