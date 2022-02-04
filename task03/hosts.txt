@@ -1,6 +1,3 @@
-node1.example.com=35.228.133.140
-node2.example.com=34.88.55.157
-
 [nodes]
 node1.example.com
 node2.example.com
