@@ -7,9 +7,9 @@ The role installs the Apache Server, opens 80/TCP port and creates a samle page.
 Role Variables
 --------------
 
-destination_path: a path for creating an index.html file 
-text_in_file: a text in the index.html file
-tcp_port: a port to open in the firewall
+- destination_path: a path for creating an index.html file 
+- text_in_file: a text in the index.html file
+- tcp_port: a port to open in the firewall
 
 
 Example Playbook
