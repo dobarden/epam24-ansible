@@ -32,4 +32,8 @@
       permanent: yes
       state: enabled
 
+  - name: Reload service firewalld
+    systemd:
+      name: firewalld
+      state: reloaded
 ...
