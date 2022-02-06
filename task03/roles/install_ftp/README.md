@@ -1,20 +1,12 @@
 Role Name
 =========
 
-The role installs the Apache Server, opens 80/TCP port and creates a samle page.
-
-
-Role Variables
---------------
-
-- destination_path: a path for creating an index.html file 
-- text_in_file: a text in the index.html file
-- tcp_port: a port to open in the firewall
+The role installs the FTP Server, opens 20-21/TCP ports, and makes writable directory /var/ftp/pub/upload.
 
 Requirements
 ------------
 
-Target OS family is RedHat
+CentOS on target hosts.
 
 Example Playbook
 ----------------
@@ -24,7 +16,6 @@ Including an example of how to use your role (for instance, with variables passe
     - hosts: servers
       roles:
          - { role: username.rolename, x: 42 }
-
 
 Author Information
 ------------------

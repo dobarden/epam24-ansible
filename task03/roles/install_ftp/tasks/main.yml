@@ -1,0 +1,83 @@
+---
+# tasks file for install_ftp
+
+- name: Print Linux family
+  debug: var=ansible_os_family
+
+- block:
+    - name: Install FTP
+      yum:
+        name: vsftpd
+        state: latest
+
+    - name: Enable FTP
+      service:
+        name: vsftpd
+        state: started
+        enabled: yes
+
+
+    - name: Enable port
+      firewalld:
+        port: "{{ tcp_port }}/tcp"
+        permanent: yes
+        state: enabled
+      notify:
+        - Restart firewall
+
+
+    - name: Install package for SELinux
+      ansible.builtin.package:
+        name: "python3-libsemanage"
+        state: present
+
+    - name: Set SElinux on
+      seboolean:
+        name: "{{ item }}"
+        state: true
+        persistent: yes
+      with_items:
+        - "{{ se_anon_write }}"
+        - "{{ se_full_access }}"
+
+    - name: Print SELinux context
+      command: getsebool {{ se_anon_write }} {{ se_full_access }}
+      register: selinux_msg
+
+    - debug: msg="{{ selinux_msg.stdout }}"
+
+
+    - name: Create a directory
+      file:
+        path: "{{ ftp_path }}/upload"
+        state: directory
+        mode: "0755"
+        owner: ftp
+
+    - name: Create a test file
+      copy:
+        content: "Hello from FTP!"
+        dest: "{{ ftp_path }}/readme.txt"
+
+
+    - name: Add "anonymous_enable=YES"
+      lineinfile:
+        path: "{{ destination_path }}"
+        regexp: "(^anonymous_enable.*)"
+        line: "anonymous_enable=YES"
+        state: present
+      notify:
+        - Restart ftp
+
+    - name: Add "anon_upload_enable=YES" and root folder
+      lineinfile:
+        path: "{{ destination_path }}"
+        insertafter: EOF
+        state: present
+        line: "{{ item }}"
+      with_items:
+        - "anon_upload_enable=YES"
+        - "anon_root=/var/ftp/pub/"
+      notify:
+        - Restart ftp
+  when: ansible_os_family == "RedHat"

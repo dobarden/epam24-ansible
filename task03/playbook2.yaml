@@ -1,0 +1,7 @@
+- name: Install ftp
+  hosts: nodes
+  become: yes
+
+
+  roles:
+    - install_ftp

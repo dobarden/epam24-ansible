@@ -1,0 +1,8 @@
+---
+# defaults file for install_ftp
+
+tcp_port: 20-21
+destination_path: "/etc/vsftpd/vsftpd.conf"
+ftp_path: "/var/ftp/pub"
+se_anon_write: "ftpd_anon_write"
+se_full_access: "allow_ftpd_full_access"

@@ -20,10 +20,12 @@
         name: httpd
         state: started
         enabled: yes
-  when: ansible_os_family == "RedHat"
 
-- name: Enable port
-  firewalld:
-    port: "{{ tcp_port }}/tcp"
-    permanent: yes
-    state: enabled
+    - name: Enable port
+      firewalld:
+        port: "{{ tcp_port }}/tcp"
+        permanent: yes
+        state: enabled
+      notify:
+        - Restart firewall
+  when: ansible_os_family == "RedHat"
