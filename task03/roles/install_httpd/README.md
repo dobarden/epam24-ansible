@@ -1,4 +1,4 @@
-Role Name
+Apache HTTP Server
 =========
 
 The role installs the Apache Server, opens 80/TCP port and creates a samle page.

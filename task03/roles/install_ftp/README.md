@@ -1,4 +1,4 @@
-Role Name
+FTP Server
 =========
 
 The role installs the FTP Server, opens 20-21/TCP ports, and makes writable directory /var/ftp/pub/upload.
