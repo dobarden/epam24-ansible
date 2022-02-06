@@ -25,10 +25,8 @@
       permanent: yes
       state: disabled
 
-  - name: Reload service firewalld
-    systemd:
+  - name: Restart firewall
+    service:
       name: firewalld
-      state: reloaded
-
-...
+      state: restarted
 
