@@ -60,24 +60,9 @@
         dest: "{{ ftp_path }}/readme.txt"
 
 
-    - name: Add "anonymous_enable=YES"
-      lineinfile:
-        path: "{{ destination_path }}"
-        regexp: "(^anonymous_enable.*)"
-        line: "anonymous_enable=YES"
-        state: present
+    - name: vsftpd.conf from template
+      template: src=vsftpd.j2 dest={{ destination_path }}/vsftpd.conf
       notify:
         - Restart ftp
-
-    - name: Add "anon_upload_enable=YES" and root folder
-      lineinfile:
-        path: "{{ destination_path }}"
-        insertafter: EOF
-        state: present
-        line: "{{ item }}"
-      with_items:
-        - "anon_upload_enable=YES"
-        - "anon_root=/var/ftp/pub/"
-      notify:
-        - Restart ftp
+ 
   when: ansible_os_family == "RedHat"
