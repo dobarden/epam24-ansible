@@ -19,9 +19,12 @@
 
     - name: Enable port
       firewalld:
-        port: "{{ tcp_port }}/tcp"
+        port: "{{ item }}/tcp"
         permanent: yes
         state: enabled
+      with_items:
+        - "{{ tcp_port }}"
+        - "{{ tcp_port_passive }}"
       notify:
         - Restart firewall
 

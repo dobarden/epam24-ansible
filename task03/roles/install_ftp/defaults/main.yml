@@ -2,6 +2,7 @@
 # defaults file for install_ftp
 
 tcp_port: 20-21
+tcp_port_passive: 15000-15500
 destination_path: "/etc/vsftpd"
 ftp_path: "/var/ftp/pub"
 se_anon_write: "ftpd_anon_write"
@@ -9,3 +10,6 @@ se_full_access: "allow_ftpd_full_access"
 anonymous_enable: "anonymous_enable=YES"
 anon_upload_enable: "anon_upload_enable=YES"
 anon_root: "anon_root=/var/ftp/pub/"
+pasv_enable: "pasv_enable=YES"
+pasv_min_port: "pasv_min_port=15000"
+pasv_max_port: "pasv_max_port=15500"
