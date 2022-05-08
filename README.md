@@ -1,7 +1,8 @@
 ## task01
-Install Apache
-Delete Apache
-Make changes in a /etc/default/grub
+Includes playbooks:
+ - Install Apache
+ - Delete Apache
+ - Make changes in a /etc/default/grub
 
 ## task02
 Create users using Ansible Vault encrypting.
